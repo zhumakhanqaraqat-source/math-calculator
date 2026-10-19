@@ -103,12 +103,12 @@
                     <button onclick="switchSubManage('single')" id="btn-single" class="pb-2 px-4 font-semibold text-gray-500 border-b-2 border-transparent">Жеке сұрақ & Сурет қосу</button>
                 </div>
 
-                <!-- 2.1 Автоматты Көп Мөлшерлі Copy-Paste -->
+                <!-- Жаппай Copy-Paste -->
                 <div id="bulk-question-area" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                         <div>
                             <label class="block text-sm font-medium mb-1">Қай бөлімге жүктейміз?</label>
-                            <select id="bulk-category" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-primary outline-none">
+                            <select id="bulk-category" class="w-full border rounded-xl p-2.5 outline-none">
                                 <option value="math-test">Математика Тест</option>
                                 <option value="inf-test">Информатика Тест</option>
                                 <option value="math-contest">Математика Контест</option>
@@ -116,16 +116,14 @@
                             </select>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-600">Мәтінді тура өзіңіз жіберген үлгіде көшіріп (Copy-Paste) қойыңыз. Дұрыс жауаптың алдында <b>*</b> (жұлдызша) таңбасы тұрса жетеді (мысалы: <code>*B) 40 см²</code>):</p>
-                    
-                    <textarea id="bulk-text" rows="12" class="w-full border rounded-xl p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="Тест мәтіндерін осы жерге қойыңыз..."></textarea>
-
+                    <p class="text-sm text-gray-600">Тесттерді көшіріп (Copy-Paste) қойыңыз. Дұрыс жауаптың алдында <b>*</b> (жұлдызша) тұруы тиіс:</p>
+                    <textarea id="bulk-text" rows="12" class="w-full border rounded-xl p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="Тесттерді осында жапсырыңыз..."></textarea>
                     <button onclick="parseBulkQuestionsText()" class="bg-amber-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-amber-700 transition">
-                        <i class="fa-solid fa-bolt mr-2"></i> Тесттерді Автоматты Түрде Қосу
+                        <i class="fa-solid fa-bolt mr-2"></i> Автоматты Түрде Қосу
                     </button>
                 </div>
 
-                <!-- 2.2 Жеке сұрақ және сурет қосу -->
+                <!-- Жеке сұрақ қосу -->
                 <form id="single-question-form" onsubmit="saveSingleQuestion(event)" class="hidden space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -138,23 +136,20 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-1">Сұраққа сурет жүктеу</label>
+                            <label class="block text-sm font-medium mb-1">Сурет жүктеу</label>
                             <input type="file" id="q-image" accept="image/*" class="w-full border rounded-xl p-2 text-sm">
                         </div>
                     </div>
-
                     <div>
                         <label class="block text-sm font-medium mb-1">Сұрақ мәтіні</label>
                         <textarea id="q-text" rows="3" required class="w-full border rounded-xl p-2.5 outline-none" placeholder="Сұрақ..."></textarea>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label class="block text-sm">A варианты</label><input type="text" id="q-optA" required class="w-full border rounded-xl p-2"></div>
                         <div><label class="block text-sm">B варианты</label><input type="text" id="q-optB" required class="w-full border rounded-xl p-2"></div>
                         <div><label class="block text-sm">C варианты</label><input type="text" id="q-optC" required class="w-full border rounded-xl p-2"></div>
                         <div><label class="block text-sm">D варианты</label><input type="text" id="q-optD" required class="w-full border rounded-xl p-2"></div>
                     </div>
-
                     <div>
                         <label class="block text-sm font-medium mb-1">Дұрыс жауабы</label>
                         <select id="q-correct" class="w-full border rounded-xl p-2.5 outline-none">
@@ -164,46 +159,41 @@
                             <option value="D">D варианты</option>
                         </select>
                     </div>
-
                     <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-800 transition">
-                        <i class="fa-solid fa-plus mr-2"></i> Жеке Сұрақты Сақтау
+                        <i class="fa-solid fa-plus mr-2"></i> Сақтау
                     </button>
                 </form>
             </div>
 
-            <!-- Базадағы Сұрақтар Тізімі -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="font-bold text-lg">Базадағы сұрақтар</h3>
-                    <button onclick="clearAllData()" class="text-red-600 text-sm hover:underline"><i class="fa-solid fa-trash mr-1"></i> Базаны тазарту</button>
+                    <button onclick="clearAllData()" class="text-red-600 text-sm hover:underline"><i class="fa-solid fa-trash mr-1"></i> Тазарту</button>
                 </div>
                 <div id="questions-list-container" class="space-y-3 max-h-96 overflow-y-auto"></div>
             </div>
         </section>
 
-        <!-- 3. МАТЕМАТИКА ТЕСТ -->
+        <!-- Бөлімдер -->
         <section id="math-test" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Математика Тесті</h2>
-                <p class="text-gray-600 mb-6">Сұрақтар мен нұсқалар әр тапсырған сайын араластырылып беріледі.</p>
+                <p class="text-gray-600 mb-6">Әр жолы сұрақтар мен жауап варианттары толық генерацияланып (ауысып) шығады.</p>
                 <button onclick="startTest('math-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
-                    <i class="fa-solid fa-play mr-2"></i> Тестті Толық Экранда Бастау
+                    <i class="fa-solid fa-play mr-2"></i> Толық Экранда Бастау
                 </button>
             </div>
         </section>
 
-        <!-- 4. ИНФОРМАТИКА ТЕСТ -->
         <section id="inf-test" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Информатика Тесті</h2>
-                <p class="text-gray-600 mb-6">Информатика пәні бойынша дайындық тесттері.</p>
                 <button onclick="startTest('inf-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
-                    <i class="fa-solid fa-play mr-2"></i> Тестті Толық Экранда Бастау
+                    <i class="fa-solid fa-play mr-2"></i> Толық Экранда Бастау
                 </button>
             </div>
         </section>
 
-        <!-- 5. МАТЕМАТИКА КОНТЕСТ -->
         <section id="math-contest" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Математика Контест</h2>
@@ -213,7 +203,6 @@
             </div>
         </section>
 
-        <!-- 6. ИНФОРМАТИКА КОНТЕСТ -->
         <section id="inf-contest" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Информатика Контест</h2>
@@ -223,7 +212,6 @@
             </div>
         </section>
 
-        <!-- 7. ПРОГРЕСС -->
         <section id="progress" class="tab-content hidden space-y-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm border">
                 <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-chart-line text-primary mr-2"></i> Статистика және Прогресс</h2>
@@ -231,30 +219,25 @@
             </div>
         </section>
 
-        <!-- ТОЛЫҚ ЭКРАНДЫ ТЕСТ ТАПСЫРУ МОДАЛЬДІ ТЕРЕЗЕСІ (FULL SCREEN MODAL) -->
+        <!-- ТОЛЫҚ ЭКРАНДЫ ТЕСТ МОДАЛІ -->
         <div id="test-modal" class="hidden fixed inset-0 bg-gray-900/90 z-50 flex flex-col justify-between overflow-y-auto">
-            <!-- Жоғарғы бекітілген панель -->
             <div class="bg-primary text-white p-4 shadow-md sticky top-0 z-10 flex justify-between items-center px-6">
                 <div>
                     <h3 id="test-modal-title" class="font-bold text-xl">Тест тапсыру</h3>
-                    <p class="text-xs text-blue-200">Парақты жаппай, барлық сұрақтарға жауап беріңіз</p>
+                    <p class="text-xs text-blue-200">Сұрақтар мен варианттар генерацияланды</p>
                 </div>
                 <button onclick="closeTestModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">
-                    <i class="fa-solid fa-xmark mr-1"></i> Тестті шығып кету
+                    <i class="fa-solid fa-xmark mr-1"></i> Шығу
                 </button>
             </div>
 
-            <!-- Төменгі контент - Үлкен Экранда Сұрақтар -->
             <div class="max-w-5xl mx-auto w-full p-4 md:p-8 flex-1">
-                <div id="test-body" class="space-y-8">
-                    <!-- Сұрақтар осы жерге шығады -->
-                </div>
+                <div id="test-body" class="space-y-8"></div>
             </div>
 
-            <!-- Төменгі сақтау батырмасы -->
             <div class="bg-white border-t p-4 sticky bottom-0 text-center shadow-lg">
                 <button id="submit-test-btn" class="bg-green-600 text-white px-10 py-3.5 rounded-xl font-bold text-lg hover:bg-green-700 shadow-md transition">
-                    <i class="fa-solid fa-check-circle mr-2"></i> Тестті аяқтау және нәтижені сақтау
+                    <i class="fa-solid fa-check-circle mr-2"></i> Нәтижені Сақтау
                 </button>
             </div>
         </div>
@@ -329,29 +312,20 @@
             }
         }
 
-        // АҚЫЛДЫ МӘТІН ПАРСЕРІ (Жұлдызшалы және кез келген санға арналған)
         function parseBulkQuestionsText() {
             const rawText = document.getElementById('bulk-text').value.trim();
             const category = document.getElementById('bulk-category').value;
+            if (!rawText) return alert('Мәтінді енгізіңіз!');
 
-            if (!rawText) {
-                alert('Мәтінді бос қалдырмаңыз!');
-                return;
-            }
-
-            // Сұрақтарды ажырату regex
             const blocks = rawText.split(/(?=\n?\d+[\.\)]\s)/g);
             let addedCount = 0;
 
             blocks.forEach(block => {
                 if(!block.trim()) return;
-
                 const lines = block.split('\n').map(l => l.trim()).filter(l => l.length > 0);
                 if(lines.length < 2) return;
 
-                // Сұрақтың өзі
                 let questionText = lines[0].replace(/^\d+[\.\)]\s*/, '').trim();
-
                 let optA = '', optB = '', optC = '', optD = '';
                 let correct = 'A';
 
@@ -391,13 +365,12 @@
             });
 
             localStorage.setItem('ozp_questions', JSON.stringify(questions));
-            alert(`Базаға сәтті ${addedCount} сұрақ қосылды!`);
+            alert(`Базаға ${addedCount} сұрақ қосылды!`);
             document.getElementById('bulk-text').value = '';
             updateDashboardStats();
             renderQuestionsList();
         }
 
-        // Жеке сұрақ қосу
         function saveSingleQuestion(e) {
             e.preventDefault();
             const category = document.getElementById('q-category').value;
@@ -407,7 +380,6 @@
             const optC = document.getElementById('q-optC').value;
             const optD = document.getElementById('q-optD').value;
             const correct = document.getElementById('q-correct').value;
-            
             const imageInput = document.getElementById('q-image');
 
             if (imageInput.files && imageInput.files[0]) {
@@ -422,12 +394,9 @@
         }
 
         function pushQuestion(category, text, optA, optB, optC, optD, correct, image) {
-            questions.push({
-                id: Date.now(),
-                category, text, optA, optB, optC, optD, correct, image
-            });
+            questions.push({ id: Date.now(), category, text, optA, optB, optC, optD, correct, image });
             localStorage.setItem('ozp_questions', JSON.stringify(questions));
-            alert('Сұрақ және сурет сәтті сақталды!');
+            alert('Сәтті сақталды!');
             document.getElementById('single-question-form').reset();
             updateDashboardStats();
             renderQuestionsList();
@@ -436,7 +405,7 @@
         function renderQuestionsList() {
             const container = document.getElementById('questions-list-container');
             if(questions.length === 0) {
-                container.innerHTML = `<p class="text-gray-500 text-sm">Әзірге сұрақтар бос.</p>`;
+                container.innerHTML = `<p class="text-gray-500 text-sm">Әзірге сұрақтар жоқ.</p>`;
                 return;
             }
             container.innerHTML = questions.map((q, idx) => `
@@ -445,10 +414,10 @@
                         <span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 text-primary rounded">${q.category}</span>
                         <p class="font-medium text-base">${idx + 1}. ${q.text}</p>${q.image ? `<img src="${q.image}" class="mt-2 max-h-48 rounded-lg border shadow-sm">` : ''}
                         <div class="text-xs text-gray-600 grid grid-cols-2 gap-2 mt-2">
-                            <span class="${q.correct==='A'?'font-bold text-green-600':''}">A) ${q.optA}</span>
-                            <span class="${q.correct==='B'?'font-bold text-green-600':''}">B) ${q.optB}</span>
-                            <span class="${q.correct==='C'?'font-bold text-green-600':''}">C) ${q.optC}</span>
-                            <span class="${q.correct==='D'?'font-bold text-green-600':''}">D) ${q.optD}</span>
+                            <span>A) ${q.optA}</span>
+                            <span>B) ${q.optB}</span>
+                            <span>C) ${q.optC}</span>
+                            <span>D) ${q.optD}</span>
                         </div>
                     </div>
                     <button onclick="deleteQuestion(${q.id})" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash"></i></button>
@@ -465,7 +434,7 @@
         }
 
         function clearAllData() {
-            if(confirm('Сұрақтар базасын толық өшіруге сенімдісіз бе?')) {
+            if(confirm('Базаны толық өшіруге сенімдісіз бе?')) {
                 questions = [];
                 localStorage.removeItem('ozp_questions');
                 updateDashboardStats();
@@ -473,33 +442,61 @@
             }
         }
 
-        // ТЕСТТІ ТОЛЫҚ ЭКРАНДА (FULL SCREEN) БАСТАУ
+        // ВАРИАНТТАР ЖӘНЕ СҰРАҚТАР ГЕНЕРАЦИЯСЫ (RANDOMIZATION)
         function startTest(category) {
             const filtered = questions.filter(q => q.category === category);
             if(filtered.length === 0) {
-                alert('Бұл бөлімде әлі сұрақтар жоқ! Алдымен "Базаны басқару" бөлімінен сұрақтар қосыңыз.');
+                alert('Бұл бөлімде әлі сұрақтар жоқ! Алдымен базаға сұрақ қосыңыз.');
                 return;
             }
 
-            // Варианттар мен сұрақтарды араластыру
-            currentTestQuestions = JSON.parse(JSON.stringify(filtered)).sort(() => Math.random() - 0.5);
+            // 1. Сұрақтардың ретін кездейсоқ араластыру
+            let shuffledQuestions = JSON.parse(JSON.stringify(filtered)).sort(() => Math.random() - 0.5);
+
+            // 2. Әр сұрақтың варианттарын да кездейсоқ араластыру (Вариант генерациясы)
+            currentTestQuestions = shuffledQuestions.map(q => {
+                let options = [
+                    { label: 'A', text: q.optA, isCorrect: q.correct === 'A' },
+                    { label: 'B', text: q.optB, isCorrect: q.correct === 'B' },
+                    { label: 'C', text: q.optC, isCorrect: q.correct === 'C' },
+                    { label: 'D', text: q.optD, isCorrect: q.correct === 'D' }
+                ];
+                // Варианттарды рандом жасау
+                options.sort(() => Math.random() - 0.5);
+
+                // Жаңа рет бойынша дұрыс жауапты табу
+                let newCorrectLabel = '';
+                let randomizedOptions = {};
+                const labels = ['A', 'B', 'C', 'D'];
+
+                options.forEach((opt, index) => {
+                    let assignedLabel = labels[index];
+                    randomizedOptions[assignedLabel] = opt.text;
+                    if(opt.isCorrect) {
+                        newCorrectLabel = assignedLabel;
+                    }
+                });
+
+                return {
+                    id: q.id,
+                    text: q.text,
+                    image: q.image,
+                    optA: randomizedOptions['A'],
+                    optB: randomizedOptions['B'],
+                    optC: randomizedOptions['C'],
+                    optD: randomizedOptions['D'],
+                    correct: newCorrectLabel
+                };
+            });
+
             userAnswers = {};
 
             let html = ``;
             currentTestQuestions.forEach((q, index) => {
                 html += `
                     <div class="p-6 bg-white border border-gray-200 rounded-2xl shadow-sm space-y-4">
-                        <div class="flex items-start justify-between">
-                            <h4 class="font-bold text-lg text-gray-900">${index + 1}-сұрақ. ${q.text}</h4>
-                        </div>
-                        
-                        <!-- Суретті үлкен әрі анық етіп көрсету -->
-                        ${q.image ? `
-                            <div class="my-4 text-center bg-gray-50 p-2 rounded-xl border">
-                                <img src="${q.image}" class="max-h-80 mx-auto rounded-lg shadow-sm object-contain">
-                            </div>
-                        ` : ''}
-
+                        <h4 class="font-bold text-lg text-gray-900">${index + 1}-сұрақ. ${q.text}</h4>
+                        ${q.image ? `<div class="my-4 text-center bg-gray-50 p-2 rounded-xl border"><img src="${q.image}" class="max-h-80 mx-auto rounded-lg shadow-sm object-contain"></div>` : ''}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                             <label class="flex items-center space-x-3 p-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 cursor-pointer transition">
                                 <input type="radio" name="question_${q.id}" value="A" onchange="userAnswers[${q.id}]='A'" class="w-4 h-4 text-primary">
@@ -513,7 +510,7 @@
                                 <input type="radio" name="question_${q.id}" value="C" onchange="userAnswers[${q.id}]='C'" class="w-4 h-4 text-primary">
                                 <span class="font-medium">C) ${q.optC}</span>
                             </label>
-                            <label class="flex items-center space-x-3 p-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 cursor-pointer transition">
+                            <label class="flex items-center space-x-3 p-3.5 rounded-xl border border-gray-200 hover:bg-blue-800/50 cursor-pointer transition">
                                 <input type="radio" name="question_${q.id}" value="D" onchange="userAnswers[${q.id}]='D'" class="w-4 h-4 text-primary">
                                 <span class="font-medium">D) ${q.optD}</span>
                             </label>
@@ -522,7 +519,7 @@
                 `;
             });
 
-            document.getElementById('test-modal-title').innerText = 'Тест тапсыру: ' + category.toUpperCase() + ` (${currentTestQuestions.length} сұрақ)`;
+            document.getElementById('test-modal-title').innerText = 'Тест тапсыру: ' + category.toUpperCase() + ` (${currentTestQuestions.length} сұрақ - Вариант генерациясы қосылды)`;
             document.getElementById('test-body').innerHTML = html;
             document.getElementById('submit-test-btn').onclick = () => submitTest(category);
             
@@ -564,7 +561,7 @@
         function renderHistory() {
             const container = document.getElementById('history-container');
             if(history.length === 0) {
-                container.innerHTML = `<p class="text-gray-500 text-sm">Әзірге тест тапсырылмады.</p>`;
+                container.innerHTML = `<p class="text-gray-500 text-sm">Әзірге нәтижелер жоқ.</p>`;
                 return;
             }
             container.innerHTML = history.map((h) => `
