@@ -61,7 +61,7 @@
             <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-2xl p-8 shadow-lg">
                 <span class="bg-white/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ОЗП Интерактивті Платформасы</span>
                 <h2 class="text-3xl md:text-4xl font-extrabold mt-3 mb-2">Педагогтердің Білімін Бағалауға Дайындық</h2>
-                <p class="text-blue-100 max-w-3xl mb-6">Математика және Информатика пәндері бойынша толыққанды тесттер, контекстік тапсырмалар, математикалық LaTeX формулалары мен статистиканы қадағалау жүйесі.</p>
+                <p class="text-blue-100 max-w-3xl mb-6">Базадан кездейсоқ 30 сұрақ таңдалып, 30 минут ішінде тапсырылатын емтихан режимі.</p>
                 <div class="flex flex-wrap gap-4">
                     <button onclick="switchTab('math-test')" class="bg-white text-primary font-bold px-6 py-3 rounded-xl shadow hover:bg-blue-50 transition">
                         <i class="fa-solid fa-play mr-2"></i> Тест Тапсыруды Бастау
@@ -116,7 +116,7 @@
                             </select>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-600">Тесттерді көшіріп (Copy-Paste) қойыңыз. Дұрыс жауаптың алдында <b>*</b> (жұлдызша) тұруы тиіс:</p>
+                    <p class="text-sm text-gray-600">Кез келген мөлшердегі тесттерді көшіріп қойыңыз (дұрыс жауап алдында <b>*</b> міндетті):</p>
                     <textarea id="bulk-text" rows="12" class="w-full border rounded-xl p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="Тесттерді осында жапсырыңыз..."></textarea>
                     <button onclick="parseBulkQuestionsText()" class="bg-amber-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-amber-700 transition">
                         <i class="fa-solid fa-bolt mr-2"></i> Автоматты Түрде Қосу
@@ -178,9 +178,9 @@
         <section id="math-test" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Математика Тесті</h2>
-                <p class="text-gray-600 mb-6">Әр жолы сұрақтар мен жауап варианттары толық генерацияланып (ауысып) шығады.</p>
+                <p class="text-gray-600 mb-6">Базадан кездейсоқ 30 сұрақ алынып, 30 минуттық таймермен тест басталады.</p>
                 <button onclick="startTest('math-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
-                    <i class="fa-solid fa-play mr-2"></i> Толық Экранда Бастау
+                    <i class="fa-solid fa-play mr-2"></i> Тестті Бастау (30 сұрақ / 30 минут)
                 </button>
             </div>
         </section>
@@ -188,8 +188,9 @@
         <section id="inf-test" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Информатика Тесті</h2>
+                <p class="text-gray-600 mb-6">Базадан кездейсоқ 30 сұрақ алынып, 30 минуттық таймермен тест басталады.</p>
                 <button onclick="startTest('inf-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
-                    <i class="fa-solid fa-play mr-2"></i> Толық Экранда Бастау
+                    <i class="fa-solid fa-play mr-2"></i> Тестті Бастау (30 сұрақ / 30 минут)
                 </button>
             </div>
         </section>
@@ -198,7 +199,7 @@
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Математика Контест</h2>
                 <button onclick="startTest('math-contest')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
-                    <i class="fa-solid fa-play mr-2"></i> Контестті Бастау
+                    <i class="fa-solid fa-play mr-2"></i> Контестті Бастау (30 сұрақ / 30 минут)
                 </button>
             </div>
         </section>
@@ -207,7 +208,7 @@
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Информатика Контест</h2>
                 <button onclick="startTest('inf-contest')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
-                    <i class="fa-solid fa-play mr-2"></i> Контестті Бастау
+                    <i class="fa-solid fa-play mr-2"></i> Контестті Бастау (30 сұрақ / 30 минут)
                 </button>
             </div>
         </section>
@@ -219,14 +220,18 @@
             </div>
         </section>
 
-        <!-- ТОЛЫҚ ЭКРАНДЫ ТЕСТ МОДАЛІ -->
+        <!-- ТОЛЫҚ ЭКРАНДЫ ТЕСТ МОДАЛІ (ТАЙМЕР МЕН 30 СҰРАҚ) -->
         <div id="test-modal" class="hidden fixed inset-0 bg-gray-900/90 z-50 flex flex-col justify-between overflow-y-auto">
             <div class="bg-primary text-white p-4 shadow-md sticky top-0 z-10 flex justify-between items-center px-6">
                 <div>
                     <h3 id="test-modal-title" class="font-bold text-xl">Тест тапсыру</h3>
-                    <p class="text-xs text-blue-200">Сұрақтар мен варианттар генерацияланды</p>
+                    <p class="text-xs text-blue-200">Емтихан режимі (30 сұрақ)</p>
                 </div>
-                <button onclick="closeTestModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">
+                <!-- Кері санақ таймері -->
+                <div id="timer-display" class="bg-red-600 text-white px-4 py-2 rounded-xl font-mono font-bold text-lg shadow">
+                    <i class="fa-solid fa-clock mr-1"></i> 30:00
+                </div>
+                <button onclick="closeTestModal()" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">
                     <i class="fa-solid fa-xmark mr-1"></i> Шығу
                 </button>
             </div>
@@ -250,6 +255,8 @@
         let history = JSON.parse(localStorage.getItem('ozp_history')) || [];
         let currentTestQuestions = [];
         let userAnswers = {};
+        let timerInterval = null;
+        let timeLeft = 30 * 60; // 30 минут секундпен
 
         window.onload = function() {
             updateDashboardStats();
@@ -442,7 +449,7 @@
             }
         }
 
-        // ВАРИАНТТАР ЖӘНЕ СҰРАҚТАР ГЕНЕРАЦИЯСЫ (RANDOMIZATION)
+        // БАЗАДАН КЕЗДЕЙСОҚ 30 СҰРАҚ ТАҢДАУ ЖӘНЕ 30 МИНУТТЫҚ ТАЙМЕР
         function startTest(category) {
             const filtered = questions.filter(q => q.category === category);
             if(filtered.length === 0) {
@@ -450,21 +457,22 @@
                 return;
             }
 
-            // 1. Сұрақтардың ретін кездейсоқ араластыру
-            let shuffledQuestions = JSON.parse(JSON.stringify(filtered)).sort(() => Math.random() - 0.5);
+            // 1. Барлық сұрақтардың ішінен кездейсоқ ретпен араластыру
+            let shuffled = JSON.parse(JSON.stringify(filtered)).sort(() => Math.random() - 0.5);
 
-            // 2. Әр сұрақтың варианттарын да кездейсоқ араластыру (Вариант генерациясы)
-            currentTestQuestions = shuffledQuestions.map(q => {
+            // 2. Егер базада 30-дан кем сұрақ болса бәрін алады, ал 30-дан көп болса тек 30-ын ғана алады!
+            let selectedQuestions = shuffled.slice(0, 30);
+
+            // 3. Таңдалған 30 сұрақтың варианттарын генерациялау (араластыру)
+            currentTestQuestions = selectedQuestions.map(q => {
                 let options = [
                     { label: 'A', text: q.optA, isCorrect: q.correct === 'A' },
                     { label: 'B', text: q.optB, isCorrect: q.correct === 'B' },
                     { label: 'C', text: q.optC, isCorrect: q.correct === 'C' },
                     { label: 'D', text: q.optD, isCorrect: q.correct === 'D' }
                 ];
-                // Варианттарды рандом жасау
                 options.sort(() => Math.random() - 0.5);
 
-                // Жаңа рет бойынша дұрыс жауапты табу
                 let newCorrectLabel = '';
                 let randomizedOptions = {};
                 const labels = ['A', 'B', 'C', 'D'];
@@ -510,7 +518,7 @@
                                 <input type="radio" name="question_${q.id}" value="C" onchange="userAnswers[${q.id}]='C'" class="w-4 h-4 text-primary">
                                 <span class="font-medium">C) ${q.optC}</span>
                             </label>
-                            <label class="flex items-center space-x-3 p-3.5 rounded-xl border border-gray-200 hover:bg-blue-800/50 cursor-pointer transition">
+                            <label class="flex items-center space-x-3 p-3.5 rounded-xl border border-gray-200 hover:bg-blue-50/50 cursor-pointer transition">
                                 <input type="radio" name="question_${q.id}" value="D" onchange="userAnswers[${q.id}]='D'" class="w-4 h-4 text-primary">
                                 <span class="font-medium">D) ${q.optD}</span>
                             </label>
@@ -519,21 +527,49 @@
                 `;
             });
 
-            document.getElementById('test-modal-title').innerText = 'Тест тапсыру: ' + category.toUpperCase() + ` (${currentTestQuestions.length} сұрақ - Вариант генерациясы қосылды)`;
+            document.getElementById('test-modal-title').innerText = 'Тест тапсыру: ' + category.toUpperCase() + ` (Кездейсоқ ${currentTestQuestions.length} сұрақ)`;
             document.getElementById('test-body').innerHTML = html;
             document.getElementById('submit-test-btn').onclick = () => submitTest(category);
             
             document.getElementById('test-modal').classList.remove('hidden');
+            
+            // Таймерді іске қосу (30 минут)
+            startTimer(category);
             renderMath();
         }
 
+        function startTimer(category) {
+            clearInterval(timerInterval);
+            timeLeft = 30 * 60; // 30 минут
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Уақыт аяқталды! Тест автоматты түрде тапсырылады.');
+                    submitTest(category);
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer-display').innerHTML = `<i class="fa-solid fa-clock mr-1"></i> ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
         function closeTestModal() {
-            if(confirm('Тестті аяқтамай шығуды қалайсыз ба?')) {
+            if(confirm('Тестті аяқтамай шығуды қалайсыз ба? Уақыт пен нәтиже сақталмайды.')) {
+                clearInterval(timerInterval);
                 document.getElementById('test-modal').classList.add('hidden');
             }
         }
 
         function submitTest(category) {
+            clearInterval(timerInterval);
             let correctCount = 0;
             currentTestQuestions.forEach(q => {
                 if(userAnswers[q.id] === q.correct) {
