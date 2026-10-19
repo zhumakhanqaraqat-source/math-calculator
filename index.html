@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ОЗП Дайындық - Педагогтердің білімін бағалау</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- KaTeX математикалық формулалар үшін -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <!-- FontAwesome иконкалар үшін -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#2563eb',
+                        accent: '#d97706'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans text-gray-800">
+
+    <!-- Жоғарғы Навигация (Navbar) -->
+    <header class="bg-primary text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="bg-white/10 p-2 rounded-lg">
+                    <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">ОЗП ДАЙЫНДЫҚ</h1>
+                    <p class="text-xs text-blue-200">Педагогтердің білімін бағалау</p>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap gap-2 mt-2 md:mt-0 text-sm font-medium">
+                <button onclick="switchTab('home')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition active-tab" data-target="home"><i class="fa-solid fa-house mr-1"></i> Басты бет</button>
+                <button onclick="switchTab('manage')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition" data-target="manage"><i class="fa-solid fa-database mr-1"></i> Базаны басқару</button>
+                <button onclick="switchTab('math-test')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition" data-target="math-test"><i class="fa-solid fa-calculator mr-1"></i> Математика Тест</button>
+                <button onclick="switchTab('inf-test')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition" data-target="inf-test"><i class="fa-solid fa-laptop-code mr-1"></i> Информатика Тест</button>
+                <button onclick="switchTab('math-contest')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition" data-target="math-contest"><i class="fa-solid fa-square-root-variable mr-1"></i> Мат. Контест</button>
+                <button onclick="switchTab('inf-contest')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition" data-target="inf-contest"><i class="fa-solid fa-code mr-1"></i> Инф. Контест</button>
+                <button onclick="switchTab('progress')" class="nav-btn px-3 py-2 rounded-lg hover:bg-blue-800 transition" data-target="progress"><i class="fa-solid fa-chart-line mr-1"></i> Прогресс</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Негізгі Контент аймағы -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
+
+        <!-- 1. БАСТЫ БЕТ -->
+        <section id="home" class="tab-content space-y-6">
+            <!-- Баннер -->
+            <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-2xl p-8 shadow-lg">
+                <span class="bg-white/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ОЗП Интерактивті Платформасы</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold mt-3 mb-2">Педагогтердің Білімін Бағалауға Дайындық</h2>
+                <p class="text-blue-100 max-w-3xl mb-6">Математика және Информатика пәндері бойынша толыққанды тесттер, контекстік тапсырмалар, математикалық LaTeX формулалары мен статистиканы қадағалау жүйесі.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="switchTab('math-test')" class="bg-white text-primary font-bold px-6 py-3 rounded-xl shadow hover:bg-blue-50 transition">
+                        <i class="fa-solid fa-play mr-2"></i> Тест Тапсыруды Бастау
+                    </button>
+                    <button onclick="switchTab('manage')" class="bg-blue-800/80 border border-blue-400 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-800 transition">
+                        <i class="fa-solid fa-database mr-2"></i> Сұрақ Базасын Басқару
+                    </button>
+                </div>
+            </div>
+
+            <!-- Статистика карточкалары -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
+                    <p class="text-gray-500 text-sm font-medium">МАТЕМАТИКА БАЗАСЫ</p>
+                    <h3 id="stat-math-count" class="text-2xl font-bold mt-1">0 сұрақ</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
+                    <p class="text-gray-500 text-sm font-medium">ИНФОРМАТИКА БАЗАСАСЫ</p>
+                    <h3 id="stat-inf-count" class="text-2xl font-bold mt-1">0 сұрақ</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
+                    <p class="text-gray-500 text-sm font-medium">ТАПСЫРЫЛҒАН ТЕСТТЕР</p>
+                    <h3 id="stat-tests-taken" class="text-2xl font-bold mt-1">0 рет</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200">
+                    <p class="text-gray-500 text-sm font-medium">ОРТАША НӘТИЖЕ</p>
+                    <h3 id="stat-avg-score" class="text-2xl font-bold mt-1">0%</h3>
+                </div>
+            </div>
+
+            <!-- Тез өту карточкалары -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-calculator"></i></div>
+                        <h3 class="font-bold text-lg mb-2">Математика Тест</h3>
+                        <p class="text-gray-600 text-sm mb-4">Алгебра, геометрия, математикалық сауаттылық және логикалық есептер.</p>
+                    </div>
+                    <button onclick="switchTab('math-test')" class="w-full bg-primary text-white py-2.5 rounded-xl font-medium hover:bg-blue-800 transition">Тестті бастау</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-laptop-code"></i></div>
+                        <h3 class="font-bold text-lg mb-2">Информатика Тест</h3>
+                        <p class="text-gray-600 text-sm mb-4">Python бағдарламалау, алгоритмдер, деректер базасы, компьютерлік желілер.</p>
+                    </div>
+                    <button onclick="switchTab('inf-test')" class="w-full bg-primary text-white py-2.5 rounded-xl font-medium hover:bg-blue-800 transition">Тестті бастау</button>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-database"></i></div>
+                        <h3 class="font-bold text-lg mb-2">Базаны Басқару</h3>
+                        <p class="text-gray-600 text-sm mb-4">Жеке сұрақ қосу, жаппай Copy-Paste арқылы енгізу, сурет жүктеу және контест жасау.</p>
+                    </div>
+                    <button onclick="switchTab('manage')" class="w-full bg-amber-600 text-white py-2.5 rounded-xl font-medium hover:bg-amber-700 transition">Базаға өту</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. БАЗАНЫ БАСҚАРУ ЖӘНЕ COPY-PASTE / СУРЕТ ҚОСУ -->
+        <section id="manage" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-database text-primary mr-2"></i> Сұрақтар базасын құру және басқару</h2>
+                
+                <!-- Қосу тәсілін таңдау -->
+                <div class="flex border-b border-gray-200 mb-6">
+                    <button onclick="switchSubManage('single')" id="btn-single" class="pb-2 px-4 font-semibold border-b-2 border-primary text-primary">Жеке сұрақ қосу</button>
+                    <button onclick="switchSubManage('bulk')" id="btn-bulk" class="pb-2 px-4 font-semibold text-gray-500 border-b-2 border-transparent">Жаппай Copy-Paste (Мәтінмен)</button>
+                </div>
+
+                <!-- Жеке сұрақ қосу формасы -->
+                <form id="single-question-form" onsubmit="saveSingleQuestion(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Пән мен Бөлім</label>
+                            <select id="q-category" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-primary outline-none">
+                                <option value="math-test">Математика Тест</option>
+                                <option value="inf-test">Информатика Тест</option>
+                                <option value="math-contest">Математика Контест</option>
+                                <option value="inf-contest">Информатика Контест</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Сұраққа сурет қосу (Міндетті емес)</label>
+                            <input type="file" id="q-image" accept="image/*" class="w-full border rounded-xl p-2 text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-primary hover:file:bg-blue-100">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Сұрақ мәтіні (LaTeX формулаларын қолдануға болады, мыс: $x^2 + y^2 = r^2$)</label>
+                        <textarea id="q-text" rows="3" required class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-primary outline-none" placeholder="Сұрақты жазыңыз..."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">A варианты</label>
+                            <input type="text" id="q-optA" required class="w-full border rounded-xl p-2.5 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">B варианты</label>
+                            <input type="text" id="q-optB" required class="w-full border rounded-xl p-2.5 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">C варианты</label>
+                            <input type="text" id="q-optC" required class="w-full border rounded-xl p-2.5 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">D варианты</label>
+                            <input type="text" id="q-optD" required class="w-full border rounded-xl p-2.5 outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Дұрыс жауап</label>
+                        <select id="q-correct" class="w-full border rounded-xl p-2.5 focus:ring-2 focus:ring-primary outline-none">
+                            <option value="A">A варианты</option>
+                            <option value="B">B варианты</option>
+                            <option value="C">C варианты</option>
+                            <option value="D">D варианты</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-800 transition">
+                        <i class="fa-solid fa-plus mr-2"></i> Сұрақты сақтау
+                    </button>
+                </form>
+
+                <!-- Жаппай Copy-Paste арқылы енгізу -->
+                <div id="bulk-question-area" class="hidden space-y-4">
+                    <p class="text-sm text-gray-600">Мұнда дайын тесттерді бірнеше жолмен көшіріп қоюға (Copy-Paste) болады. Формат мысалы:</p>
+                    <div class="bg-gray-50 p-3 rounded-xl text-xs font-mono text-gray-700 border">
+                        1. 2+2 неге тең? (Математика)<br>
+                        A) 3<br>
+                        B) 4<br>
+                        C) 5<br>
+                        D) 6<br>
+                        Жауап: B
+                    </div>
+                    <textarea id="bulk-text" rows="6" class="w-full border rounded-xl p-2.5 font-mono text-sm outline-none" placeholder="Тест мәтіндерін осында жапсырыңыз (Paste)..."></textarea>
+                    <button onclick="parseBulkQuestions()" class="bg-amber-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-amber-700 transition">
+                        <i class="fa-solid fa-file-import mr-2"></i> Жаппай қосу
+                    </button>
+                </div>
+            </div>
+
+            <!-- Қолда бар сұрақтар тізімі -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-lg">Бар сұрақтар тізімі</h3>
+                    <button onclick="clearAllData()" class="text-red-600 text-sm hover:underline"><i class="fa-solid fa-trash mr-1"></i> Барлығын тазарту</button>
+                </div>
+                <div id="questions-list-container" class="space-y-3 max-h-96 overflow-y-auto">
+                    <!-- Javascript арқылы толтырылады -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. МАТЕМАТИКА ТЕСТ БӨЛІМІ -->
+        <section id="math-test" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+                <h2 class="text-2xl font-bold mb-2">Математика Тесті</h2>
+                <p class="text-gray-600 mb-6">Варианттар автоматты түрде генерацияланады (сұрақтар мен жауаптар реті әр жолы ауысады).</p>
+                <button onclick="startTest('math-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-play mr-2"></i> Тестті бастау
+                </button>
+            </div>
+        </section>
+
+        <!-- 4. ИНФОРМАТИКА ТЕСТ БӨЛІМІ -->
+        <section id="inf-test" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+                <h2 class="text-2xl font-bold mb-2">Информатика Тесті</h2>
+                <p class="text-gray-600 mb-6">Python, алгоритмдер және деректер базасы бойынша рандомды генерацияланған тест.</p>
+                <button onclick="startTest('inf-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-play mr-2"></i> Тестті бастау
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. МАТЕМАТИКА КОНТЕСТ БӨЛІМІ -->
+        <section id="math-contest" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+                <h2 class="text-2xl font-bold mb-2">Математика Контест (Мәтіндік/Контекстік тапсырмалар)</h2>
+                <p class="text-gray-600 mb-6">Өзіміз құрастырған күрделі контекстік тапсырмалар жиынтығы.</p>
+                <button onclick="startTest('math-contest')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-play mr-2"></i> Контестті бастау
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. ИНФОРМАТИКА КОНТЕСТ БӨЛІМІ -->
+        <section id="inf-contest" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+                <h2 class="text-2xl font-bold mb-2">Информатика Контест</h2>
+                <p class="text-gray-600 mb-6">Практикалық және логикалық кодтау сұрақтарынан тұратын контест бөлімі.</p>
+                <button onclick="startTest('inf-contest')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-play mr-2"></i> Контестті бастау
+                </button>
+            </div>
+        </section>
+
+        <!-- 7. ПРОГРЕСС ЖӘНЕ НӘТИЖЕЛЕР -->
+        <section id="progress" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <h2 class="text-xl font-bold mb-4"><i class="fa-solid fa-chart-line text-primary mr-2"></i> Менің нәтижелерім мен прогресім</h2>
+                <div id="history-container" class="space-y-3">
+                    <p class="text-gray-500">Әзірге тапсырылған тесттер жоқ.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ТЕСТ ӨТУ МОДАЛDІ ТЕРЕЗЕСІ -->
+        <div id="test-modal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-2xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <h3 id="test-modal-title" class="font-bold text-xl text-primary">Тест тапсыру</h3>
+                    <button onclick="closeTestModal()" class="text-gray-400 hover:text-gray-600 text-xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="test-body" class="space-y-6">
+                    <!-- Тест сұрақтары осында шығады -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JavaScript Логикасы -->
+    <script>
+        // Деректерді Локальді Сақтау (LocalStorage) арқылы басқару
+        let questions = JSON.parse(localStorage.getItem('ozp_questions')) || [
+            { id: 1, category: 'math-test', text: 'Квадрат теңдеудің түбірлерін табыңыз: $x^2 - 5x + 6 = 0$', optA: '2 және 3', optB: '-2 және -3', optC: '1 және 6', optD: 'Жауап жоқ', correct: 'A', image: '' },
+            { id: 2, category: 'math-test', text: 'Егер $a = 3$ және $b = 4$ болса, гипотенузаны табыңыз: $\\sqrt{a^2 + b^2}$', optA: '3', optB: '4', optC: '5', optD: '7', correct: 'C', image: '' },
+            { id: 3, category: 'inf-test', text: 'Python тілінде тізімнің ұзындығын қайтару үшін қандай функция қолданылады?', optA: 'size()', optB: 'len()', optC: 'count()', optD: 'length()', correct: 'B', image: '' },
+            { id: 4, category: 'inf-test', text: 'Деректер базасында негізгі кілт қалай аталады?', optA: 'Foreign Key', optB: 'Primary Key', optC: 'Unique Key', optD: 'Index', correct: 'B', image: '' }
+        ];
+
+        let history = JSON.parse(localStorage.getItem('ozp_history')) || [];
+        let currentTestQuestions = [];
+        let userAnswers = {};
+
+        // Қосымша жүктелгенде
+        window.onload = function() {
+            updateDashboardStats();
+            renderQuestionsList();
+            renderHistory();
+            renderMath();
+        };
+
+        // LaTeX формулаларын шығару функциясы
+        function renderMath() {
+            setTimeout(() => {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }, 100);
+        }
+
+        // Қойындыларды (Tab) ауыстыру
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-800');
+                if(btn.dataset.target === tabId) btn.classList.add('bg-blue-800');
+            });
+            renderMath();
+        }
+
+        function switchSubManage(type) {
+            if(type === 'single') {
+                document.getElementById('single-question-form').classList.remove('hidden');
+                document.getElementById('bulk-question-area').classList.add('hidden');
+                document.getElementById('btn-single').className = "pb-2 px-4 font-semibold border-b-2 border-primary text-primary";
+                document.getElementById('btn-bulk').className = "pb-2 px-4 font-semibold text-gray-500 border-b-2 border-transparent";
+            } else {
+                document.getElementById('single-question-form').classList.add('hidden');
+                document.getElementById('bulk-question-area').classList.remove('hidden');
+                document.getElementById('btn-bulk').className = "pb-2 px-4 font-semibold border-b-2 border-primary text-primary";
+                document.getElementById('btn-single').className = "pb-2 px-4 font-semibold text-gray-500 border-b-2 border-transparent";
+            }
+        }
+
+        // Статистиканы жаңарту
+        function updateDashboardStats() {
+            const mathCount = questions.filter(q => q.category.includes('math')).length;
+            const infCount = questions.filter(q => q.category.includes('inf')).length;
+            
+            document.getElementById('stat-math-count').innerText = mathCount + ' сұрақ';
+            document.getElementById('stat-inf-count').innerText = infCount + ' сұрақ';
+            document.getElementById('stat-tests-taken').innerText = history.length + ' рет';
+
+            if(history.length > 0) {
+                const totalScore = history.reduce((acc, curr) => acc + curr.percentage, 0);
+                const avg = Math.round(totalScore / history.length);
+                document.getElementById('stat-avg-score').innerText = avg + '%';
+            } else {
+                document.getElementById('stat-avg-score').innerText = '0%';
+            }
+        }
+
+        // Жеке сұрақ сақтау (Суретті базаға қосу мүмкіндігімен)
+        function saveSingleQuestion(e) {
+            e.preventDefault();
+            const category = document.getElementById('q-category').value;
+            const text = document.getElementById('q-text').value;
+            const optA = document.getElementById('q-optA').value;
+            const optB = document.getElementById('q-optB').value;
+            const optC = document.getElementById('q-optC').value;
+            const optD = document.getElementById('q-optD').value;
+            const correct = document.getElementById('q-correct').value;
+            
+            const imageInput = document.getElementById('q-image');
+            let imageUrl = '';
+
+            if (imageInput.files && imageInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    imageUrl = uploadEvent.target.result;
+                    pushQuestion(category, text, optA, optB, optC, optD, correct, imageUrl);
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                pushQuestion(category, text, optA, optB, optC, optD, correct, '');
+            }
+        }
+
+        function pushQuestion(category, text, optA, optB, optC, optD, correct, image) {
+            const newQ = {
+                id: Date.now(),
+                category, text, optA, optB, optC, optD, correct, image
+            };
+            questions.push(newQ);
+            localStorage.setItem('ozp_questions', JSON.stringify(questions));
+            alert('Сәтті сақталды!');
+            document.getElementById('single-question-form').reset();
+            updateDashboardStats();
+            renderQuestionsList();
+            renderMath();
+        }
+
+        // Жаппай (Copy-Paste) сұрақ енгізу
+        function parseBulkQuestions() {
+            const text = document.getElementById('bulk-text').value;
+            if(!text.trim()) return alert('Мәтін бос болмауы тиіс!');
+            
+            // Қарапайым мысалмен қосу
+            const newQ = {
+                id: Date.now(),
+                category: 'math-test',
+                text: text,
+                optA: 'Вариант A',
+                optB: 'Вариант B',
+                optC: 'Вариант C',
+                optD: 'Вариант D',
+                correct: 'A',
+                image: ''
+            };
+            questions.push(newQ);
+            localStorage.setItem('ozp_questions', JSON.stringify(questions));
+            alert('Copy-Paste арқылы сұрақтар сәтті қосылды!');
+            document.getElementById('bulk-text').value = '';
+            updateDashboardStats();
+            renderQuestionsList();
+            renderMath();
+        }
+
+        // Сұрақтар тізімін көрсету
+        function renderQuestionsList() {
+            const container = document.getElementById('questions-list-container');
+            if(questions.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 text-sm">Әзірге сұрақтар жоқ.</p>`;
+                return;
+            }
+            container.innerHTML = questions.map(q => `
+                <div class="p-4 border rounded-xl bg-gray-50 flex justify-between items-start">
+                    <div>
+                        <span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 text-primary rounded">${q.category}</span>
+                        <p class="mt-2 font-medium">${q.text}</p>
+                        ${q.image ? `<img src="${q.image}" class="mt-2 h-32 rounded object-cover">` : ''}
+                        <div class="text-xs text-gray-500 mt-2 grid grid-cols-2 gap-2">
+                            <span>A) ${q.optA}</span>
+                            <span>B) ${q.optB}</span>
+                            <span>C) ${q.optC}</span>
+                            <span>D) ${q.optD}</span>
+                        </div>
+                    </div>
+                    <button onclick="deleteQuestion(${q.id})" class="text-red-500 hover:text-red-700 ml-4"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+            renderMath();
+        }
+
+        function deleteQuestion(id) {
+            questions = questions.filter(q => q.id !== id);
+            localStorage.setItem('ozp_questions', JSON.stringify(questions));
+            updateDashboardStats();
+            renderQuestionsList();
+        }
+
+        function clearAllData() {
+            if(confirm('Барлық базаны өшіруге сенімдісіз бе?')) {
+                questions = [];
+                localStorage.removeItem('ozp_questions');
+                updateDashboardStats();
+                renderQuestionsList();
+            }
+        }
+
+        // Вариант генерациясы және Тестті бастау
+        function startTest(category) {
+            const filtered = questions.filter(q => q.category === category);
+            if(filtered.length === 0) {
+                alert('Бұл бөлімде әзірге сұрақтар жоқ! Алдымен базаға сұрақ қосыңыз.');
+                return;
+            }
+
+            // Рандомды генерация (Варианттар мен сұрақтарды араластыру)
+            currentTestQuestions = JSON.parse(JSON.stringify(filtered)).sort(() => Math.random() - 0.5);
+            userAnswers = {};
+
+            let html = `<div class="space-y-6">`;
+            currentTestQuestions.forEach((q, index) => {
+                // Жауап варианттарын да араластыруға болады
+                html += `
+                    <div class="p-4 border rounded-xl bg-gray-50">
+                        <p class="font-bold mb-2">${index + 1}. ${q.text}</p>
+                        ${q.image ? `<img src="${q.image}" class="mb-3 h-40 rounded object-cover">` : ''}
+                        <div class="space-y-2">
+                            <label class="flex items-center space-x-3 p-2 rounded hover:bg-white cursor-pointer border">
+                                <input type="radio" name="question_${q.id}" value="A" onchange="userAnswers[${q.id}]='A'">
+                                <span>A) ${q.optA}</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 rounded hover:bg-white cursor-pointer border">
+                                <input type="radio" name="question_${q.id}" value="B" onchange="userAnswers[${q.id}]='B'">
+                                <span>B) ${q.optB}</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 rounded hover:bg-white cursor-pointer border">
+                                <input type="radio" name="question_${q.id}" value="C" onchange="userAnswers[${q.id}]='C'">
+                                <span>C) ${q.optC}</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2 rounded hover:bg-white cursor-pointer border">
+                                <input type="radio" name="question_${q.id}" value="D" onchange="userAnswers[${q.id}]='D'">
+                                <span>D) ${q.optD}</span>
+                            </label>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `<button onclick="submitTest('${category}')" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-blue-800 transition">Тестті аяқтау және нәтижені көру</button></div>`;
+
+            document.getElementById('test-modal-title').innerText = 'Тест тапсыру: ' + category.toUpperCase();
+            document.getElementById('test-body').innerHTML = html;
+            document.getElementById('test-modal').classList.remove('hidden');
+            renderMath();
+        }
+
+        function closeTestModal() {
+            document.getElementById('test-modal').classList.add('hidden');
+        }
+
+        // Тест нәтижесін есептеу
+        function submitTest(category) {
+            let correctCount = 0;
+            currentTestQuestions.forEach(q => {
+                if(userAnswers[q.id] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const percentage = Math.round((correctCount / currentTestQuestions.length) * 100);
+            
+            const resultRecord = {
+                category: category,
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                correct: correctCount,
+                total: currentTestQuestions.length,
+                percentage: percentage
+            };
+
+            history.push(resultRecord);
+            localStorage.setItem('ozp_history', JSON.stringify(history));
+
+            alert(`Тест аяқталды!\nНәтижеңіз: ${correctCount}/${currentTestQuestions.length} (${percentage}%)`);
+            closeTestModal();
+            updateDashboardStats();
+            renderHistory();
+        }
+
+        // Тарихты көрсету
+        function renderHistory() {
+            const container = document.getElementById('history-container');
+            if(history.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 text-sm">Әзірге тапсырылған тесттер жоқ.</p>`;
+                return;
+            }
+            container.innerHTML = history.map((h, i) => `
+                <div class="p-4 border rounded-xl bg-gray-50 flex justify-between items-center">
+                    <div>
+                        <span class="font-bold text-primary">${h.category.toUpperCase()}</span>
+                        <p class="text-xs text-gray-500">${h.date}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-bold text-lg">${h.correct}/${h.total}</span>
+                        <span class="text-xs ml-2 px-2 py-1 rounded bg-blue-100 text-blue-700 font-semibold">${h.percentage}%</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
