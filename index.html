@@ -61,7 +61,7 @@
             <div class="bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-2xl p-8 shadow-lg">
                 <span class="bg-white/20 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">ОЗП Интерактивті Платформасы</span>
                 <h2 class="text-3xl md:text-4xl font-extrabold mt-3 mb-2">Педагогтердің Білімін Бағалауға Дайындық</h2>
-                <p class="text-blue-100 max-w-3xl mb-6">Базадан кездейсоқ 30 сұрақ таңдалып, 30 минут ішінде тапсырылатын емтихан режимі.</p>
+                <p class="text-blue-100 max-w-3xl mb-6">Үлкен базадан кездейсоқ 30 сұрақ таңдалып, 30 минут ішінде тапсырылатын емтихан режимі.</p>
                 <div class="flex flex-wrap gap-4">
                     <button onclick="switchTab('math-test')" class="bg-white text-primary font-bold px-6 py-3 rounded-xl shadow hover:bg-blue-50 transition">
                         <i class="fa-solid fa-play mr-2"></i> Тест Тапсыруды Бастау
@@ -116,7 +116,7 @@
                             </select>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-600">Кез келген мөлшердегі тесттерді көшіріп қойыңыз (дұрыс жауап алдында <b>*</b> міндетті):</p>
+                    <p class="text-sm text-gray-600">Кез келген көлемдегі тесттерді көшіріп қойыңыз (дұрыс жауап алдында <b>*</b> міндетті):</p>
                     <textarea id="bulk-text" rows="12" class="w-full border rounded-xl p-3 font-mono text-sm outline-none focus:ring-2 focus:ring-primary" placeholder="Тесттерді осында жапсырыңыз..."></textarea>
                     <button onclick="parseBulkQuestionsText()" class="bg-amber-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-amber-700 transition">
                         <i class="fa-solid fa-bolt mr-2"></i> Автоматты Түрде Қосу
@@ -178,7 +178,7 @@
         <section id="math-test" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Математика Тесті</h2>
-                <p class="text-gray-600 mb-6">Базадан кездейсоқ 30 сұрақ алынып, 30 минуттық таймермен тест басталады.</p>
+                <p class="text-gray-600 mb-6">Базадан кездейсоқ тек 30 сұрақ алынып, 30 минуттық таймермен тест басталады.</p>
                 <button onclick="startTest('math-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
                     <i class="fa-solid fa-play mr-2"></i> Тестті Бастау (30 сұрақ / 30 минут)
                 </button>
@@ -188,7 +188,7 @@
         <section id="inf-test" class="tab-content hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm text-center">
                 <h2 class="text-2xl font-bold mb-2">Информатика Тесті</h2>
-                <p class="text-gray-600 mb-6">Базадан кездейсоқ 30 сұрақ алынып, 30 минуттық таймермен тест басталады.</p>
+                <p class="text-gray-600 mb-6">Базадан кездейсоқ тек 30 сұрақ алынып, 30 минуттық таймермен тест басталады.</p>
                 <button onclick="startTest('inf-test')" class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-800 transition">
                     <i class="fa-solid fa-play mr-2"></i> Тестті Бастау (30 сұрақ / 30 минут)
                 </button>
@@ -449,7 +449,7 @@
             }
         }
 
-        // БАЗАДАН КЕЗДЕЙСОҚ 30 СҰРАҚ ТАҢДАУ ЖӘНЕ 30 МИНУТТЫҚ ТАЙМЕР
+        // БАЗАДАН ҚАТАҢ ТҮРДЕ ТЕК 30 КЕЗДЕЙСОҚ СҰРАҚ ТАҢДАУ
         function startTest(category) {
             const filtered = questions.filter(q => q.category === category);
             if(filtered.length === 0) {
@@ -457,13 +457,13 @@
                 return;
             }
 
-            // 1. Барлық сұрақтардың ішінен кездейсоқ ретпен араластыру
-            let shuffled = JSON.parse(JSON.stringify(filtered)).sort(() => Math.random() - 0.5);
+            // 1. Барлық сұрақтардың ретін кездейсоқ араластыру
+            let shuffled = [...filtered].sort(() => Math.random() - 0.5);
 
-            // 2. Егер базада 30-дан кем сұрақ болса бәрін алады, ал 30-дан көп болса тек 30-ын ғана алады!
+            // 2. Қатаң түрде тек алғашқы 30 сұрақты алу (егер базада 30-дан аз болса, барлығын алады)
             let selectedQuestions = shuffled.slice(0, 30);
 
-            // 3. Таңдалған 30 сұрақтың варианттарын генерациялау (араластыру)
+            // 3. Таңдалған сұрақтардың варианттарын генерациялау (араластыру)
             currentTestQuestions = selectedQuestions.map(q => {
                 let options = [
                     { label: 'A', text: q.optA, isCorrect: q.correct === 'A' },
